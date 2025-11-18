@@ -24,3 +24,4 @@ public class Material {
 
     private String type;
 }
+

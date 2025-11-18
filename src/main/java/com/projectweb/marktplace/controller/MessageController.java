@@ -1,3 +1,4 @@
+
 package com.projectweb.marktplace.controller;
 
 import com.projectweb.marktplace.model.Message;
@@ -39,3 +40,4 @@ public class MessageController {
         service.delete(id); return ResponseEntity.noContent().build();
     }
 }
+
