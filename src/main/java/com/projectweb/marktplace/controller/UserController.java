@@ -1,7 +1,10 @@
 package com.projectweb.marktplace.controller;
 
+import com.projectweb.marktplace.dto.auth.RegisterRequest;
+import com.projectweb.marktplace.dto.auth.RegisterResponse;
 import com.projectweb.marktplace.model.User;
 import com.projectweb.marktplace.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +35,10 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        User created = service.create(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest user) {
+        var response = service.registerUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
