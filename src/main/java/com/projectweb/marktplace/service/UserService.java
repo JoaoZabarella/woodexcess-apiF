@@ -3,6 +3,8 @@ package com.projectweb.marktplace.service;
 import com.projectweb.marktplace.controller.mapper.UserMapper;
 import com.projectweb.marktplace.dto.auth.RegisterRequest;
 import com.projectweb.marktplace.dto.auth.RegisterResponse;
+import com.projectweb.marktplace.event.EventPublisher;
+import com.projectweb.marktplace.event.UserRegisteredEvent;
 import com.projectweb.marktplace.exception.users.EmailAlredyExistException;
 import com.projectweb.marktplace.model.User;
 import com.projectweb.marktplace.repository.UserRepository;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,12 +24,15 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final PasswordEncoder encoder;
+    private final EventPublisher eventPublisher;
 
     @Autowired
-    public UserService(UserRepository repository, UserMapper mapper, PasswordEncoder encoder) {
+    public UserService(UserRepository repository, UserMapper mapper, PasswordEncoder encoder,
+            EventPublisher eventPublisher) {
         this.repository = repository;
         this.mapper = mapper;
         this.encoder = encoder;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -37,6 +43,14 @@ public class UserService {
         User user = mapper.toEntity(dto);
         user.setPassword(encoder.encode(dto.password()));
         User savedUser = repository.save(user);
+
+        // Publicar evento de usuário registrado
+        eventPublisher.publishUserRegistered(new UserRegisteredEvent(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail(),
+                LocalDateTime.now()));
+
         return mapper.toRegisterResponse(savedUser);
     }
 
@@ -63,4 +77,3 @@ public class UserService {
         repository.deleteById(id);
     }
 }
-
