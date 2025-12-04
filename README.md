@@ -1,5 +1,7 @@
 # Marketplace API
 
+VIDEO RABBITMQ: https://youtu.be/SqjX9trPK-0
+
 API REST para marketplace de materiais de construção e madeira, desenvolvida com Spring Boot 3.5.7 e Java 21.
 
 ## 🚀 Funcionalidades
