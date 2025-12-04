@@ -1,6 +1,7 @@
 # Marketplace API
 
 VIDEO RABBITMQ: https://youtu.be/SqjX9trPK-0
+INTEGRANTES: João Pedro Zabarella Muniz, Maria Fernanda Silva Leite, João Pedro Kraschowetz Souza e Maria Beatriz Monteiro Braga 
 
 API REST para marketplace de materiais de construção e madeira, desenvolvida com Spring Boot 3.5.7 e Java 21.
 
